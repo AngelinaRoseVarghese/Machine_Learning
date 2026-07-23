@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, r2_score
 
 
-using = fetch_california_housing()
+housing = fetch_california_housing()
 
 data = pd.DataFrame(housing.data,
 columns = housing.feature_names)
@@ -69,3 +69,105 @@ Epoch 700, Cost = 0.6516
 Epoch 800, Cost = 0.6516
 Epoch 900, Cost = 0.6516
 ***************************************************************
+
+
+    
+print("Gradient Descent")
+print("\n")
+print("weight :",w)
+print("Bias :",b)
+print("MSE :", mean_squared_error(y_test,y_pred_gd))
+print("R2 Score :",r2_score(y_test,y_pred_gd))
+*************************Output********************************
+Gradient Descent
+
+
+weight : 0.18323090648660517
+Bias : 2.0718574888450205
+MSE : 1.292327655590046
+R@ Score : 0.013798228607320828
+***************************************************************
+
+
+
+x_train_ne = np.c_[np.ones((len(x_train),1)),x_train]
+x_test_ne = np.c_[np.ones((len(x_test),1)),x_test]
+
+theta = np.linalg.inv(x_train_ne.T @ x_train_ne) @ x_train_ne.T @ y_train
+
+y_pred_ne = x_test_ne @ theta
+
+
+print("\nNormal Equation")
+print("----------------")
+print("Intercept: ", theta[0])
+print("Slop: ",theta[1])
+print("MSE: ", mean_squared_error(y_test, y_pred_ne))
+print("R2 Score :",r2_score(y_test, y_pred_ne))
+*************************Output********************************
+Normal Equation
+----------------
+Intercept:  1.6547622685968417
+Slop:  1.6547622685968417
+MSE:  1.292327655590046
+R2 Score : 0.013798228607320828
+***************************************************************
+
+
+
+sort_axis = np.argsort(x_test.flatten())
+x_sorted = x_test[sort_axis]
+y_pred_ne_sorted = y_pred_ne[sort_axis]
+
+
+
+index = np.argsort(x_test.flatten())
+plt.figure(figsize=(8, 5))
+plt.scatter(x_test, y_test, color='blue', label='Actual Data')
+
+
+
+
+plt.plot(
+    x_test.flatten()[index],
+    y_pred_ne[index],
+    color='red',
+    linewidth=2,
+    label='Regression Line'
+)
+plt.title("Linear Regression")
+plt.xlabel("Average Rooms")
+plt.ylabel("Median House Value")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+
+
+plt.figure(figsize=(8,5))
+
+plt.plot(cost_history, color='navy', linewidth=2)
+
+plt.title('Gradient Descent Cost Convergence Curve')
+plt.xlabel('Iterations')
+plt.ylabel('Cost J(0)')
+plt.grid(True, linestyle='--', alpha=0.6)
+
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
