@@ -41,7 +41,7 @@ b=0
 
 learning_rate = 0.01
 epochs = 1000
-
+cost_history=[]
 n=len(x_train_scaled)
 
 for i in range(epochs):
@@ -52,6 +52,7 @@ for i in range(epochs):
     b = b - learning_rate * db
     if i % 100 ==0:
         cost = (1/(2*n)) * np.sum((y_pred - y_train) **2)
+        cost_history.append(cost)
         print(f"Epoch {i}, Cost = {cost:.4f}")
 y_pred_gd = w * x_test_scaled.flatten() + b
 
